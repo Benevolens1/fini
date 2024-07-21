@@ -1,0 +1,165 @@
+body {
+  padding: 2%;
+  font: 20px sans-serif;
+  text-align: justify;
+  display: flex;
+  flex-flow: column nowrap;
+  list-style-type: none;
+}
+
+button {
+  font-family: monospace;
+  margin: 5px;
+  background-color: whitesmoke;
+  border-radius: 10px;
+  border-width: 0px;
+}
+
+.generalBtns {
+  display: flex;
+  flex-flow: row wrap;
+}
+
+.space {
+  flex-grow: 1;
+}
+
+form, #people {
+  display: flex;
+  flex-flow: column nowrap;
+  margin: 7px;
+  border: 4px solid black;
+  box-shadow: 5px 5px 5px black;
+  border-radius: 8px;
+}
+
+form#addTask {
+  border-color: rgb(184, 116, 251);
+}
+
+#people {
+  border-color: rgb(0, 158, 210);
+}
+
+form *, #people * {
+  margin: 5px;
+}
+
+@media (orientation: portrait) {
+  .table {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.table {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+}
+
+.todo-column, .doing-column, .done-column {
+  margin: 20px 3px;
+  border: 3px solid lightgrey;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  border-radius: 8px;
+}
+
+hr {
+  margin: 1px 0;
+  border-color: lightgrey;
+}
+
+.todo-column, .todo-column hr {
+  border-color: red;
+}
+
+.doing-column, .doing-column hr {
+  border-color: orange;
+}
+
+.done-column, .done-column hr {
+  border-color: green;
+}
+
+.column-title {
+  background-color: white;
+  font-size: 24px;
+  font-weight: bold;
+  font-style: italic;
+  text-align: center;
+}
+
+.todo-column .column-title {
+  color: red;
+}
+
+.doing-column .column-title {
+  color: orange;
+}
+
+.done-column .column-title {
+  color: green;
+}
+
+.task {
+  background-color: white;
+  margin: 10px;
+  padding: 0.4em;
+  border: 1px solid black;
+  border-radius: 5px;
+  display: flex;
+  flex-flow: column nowrap;
+  box-shadow: 3px 3px 3px lightgray;
+}
+
+.task-title {
+  font-weight: bold;
+  font-size: 21px;
+}
+
+.task-content {
+  font-size: 18px;
+}
+
+.modify-task {
+  background-color: gray;
+}
+
+/* .ongoing-modification {
+} */
+
+button#displayPeopleMenu {
+  border-color: rgb(0, 158, 210);
+  border-width: 4px;
+  color: rgb(0, 158, 210);
+  padding: 21px;
+  font-weight: bold;
+  font-size: 21px;
+}
+
+button#displayTaskMenu {
+  border-color: rgb(184, 116, 251);
+  border-width: 4px;
+  color: rgb(184, 116, 251);
+  padding: 21px;
+  font-weight: bold;
+  font-size: 21px;
+}
+
+.manageBtns {
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.hidden {
+  display: none;
+}
+
+.managingPeopleMenu {
+  border: 2px solid rgb(0, 158, 210);
+}
