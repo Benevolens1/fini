@@ -8,6 +8,6 @@ export class TasksController {
 
     @Get(':boardId')
     findAll(@Param('boardId') boardId: string): Promise<Task[]> {
-        return this.tasksService.findAll();
+        return this.tasksService.findAll(boardId);
     }
 }

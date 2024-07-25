@@ -39,6 +39,8 @@ export default class Table extends React.Component {
             people={this.props.people}
             taskPeople={this.props.taskPeople}
             socket={this.props.socket}
+            taskSocket={this.props.taskSocket}
+            peopleSocket={this.props.peopleSocket}
             somebodyElseModifies={this.props.somebodyElseModifies}
             subtasks={this.props.subtasks}
           />
@@ -49,6 +51,8 @@ export default class Table extends React.Component {
             people={this.props.people}
             taskPeople={this.props.taskPeople}
             socket={this.props.socket}
+            taskSocket={this.props.taskSocket}
+            peopleSocket={this.props.peopleSocket}
             somebodyElseModifies={this.props.somebodyElseModifies}
             subtasks={this.props.subtasks}
           />
@@ -59,6 +63,8 @@ export default class Table extends React.Component {
             people={this.props.people}
             taskPeople={this.props.taskPeople}
             socket={this.props.socket}
+            taskSocket={this.props.taskSocket}
+            peopleSocket={this.props.peopleSocket}
             somebodyElseModifies={this.props.somebodyElseModifies}
             subtasks={this.props.subtasks}
           />

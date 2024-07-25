@@ -19,11 +19,9 @@ describe('AppController (e2e)', () => {
     await app.close();
   });
 
-  it('/boards/newboard/ (GET)', async () => {
-    const response = await request(app.getHttpServer())
-      .post('/boards/newboard')
-      .send({username: "John", password: "thisisadefaultpassword"})
-    expect(response.body).toBeDefined();
-    expect(typeof response.body.boardId).toBe("string");
+  it('/people/a (GET)', async () => {
+    const response = await request(app.getHttpServer()).get('/people/a');
+    expect(response.body).toHaveLength(1);
+    expect(response.body[0]).toHaveProperty('name', 'Stan');
   });
 });

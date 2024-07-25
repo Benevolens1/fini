@@ -9,6 +9,10 @@ import { Board } from './boards/board.model';
 import { CommonModule } from './common/common.module';
 import { CredentialsModule } from './credentials/credentials.module';
 import { Credential } from './credentials/credential.model';
+import { TaskpeopleController } from './taskpeople/taskpeople.controller';
+import { SubtasksController } from './subtasks/subtasks.controller';
+import { PeopleModule } from './people/people.module';
+import { Person } from './people/person.model';
 
 
 @Module({
@@ -18,13 +22,14 @@ import { Credential } from './credentials/credential.model';
     SequelizeModule.forRoot({
       dialect: 'sqlite',
       storage: process.env.NODE_ENV + 'database.sqlite',
-      models: [Task, Board, Credential],
+      models: [Task, Board, Credential, Person],
       synchronize: true
     }),
     CommonModule,
     CredentialsModule,
+    PeopleModule,
   ],
-  controllers: [AppController],
+  controllers: [AppController, TaskpeopleController, SubtasksController],
   providers: [AppService],
 })
 export class AppModule {}

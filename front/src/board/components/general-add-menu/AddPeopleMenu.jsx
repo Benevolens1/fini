@@ -24,7 +24,7 @@ export default class AddPeopleMenu extends React.Component {
     let input = this.state.input;
     let person = { name: input };
     this.setState({ input: '' });
-    this.props.socket.emit('createPerson', person);
+    this.props.peopleSocket.emit('createPerson', person);
     document.querySelector('form#people input').focus();
   }
 
@@ -35,8 +35,7 @@ export default class AddPeopleMenu extends React.Component {
   }
 
   removePerson(pid) {
-    console.log("removePerson function is executed")
-    this.props.socket.emit('deletePerson', pid);
+    this.props.peopleSocket.emit('deletePerson', pid);
   }
 
   componentDidMount() {

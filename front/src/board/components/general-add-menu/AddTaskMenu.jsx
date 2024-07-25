@@ -47,7 +47,7 @@ export default class AddTaskMenu extends React.Component {
         title: '',
         content: ''
       });
-      this.props.socket.emit('createTask', task);
+      this.props.taskSocket.emit('createTask', task);
       document.querySelector('#addTask input#title').focus();
     }
   

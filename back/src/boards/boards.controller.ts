@@ -1,21 +1,21 @@
-import { Controller, Get, Param, HttpRedirectResponse, HttpException, HttpStatus, NotFoundException, Body } from '@nestjs/common';
+import { Controller, Get, Param, HttpException, HttpStatus, NotFoundException, Body, Post } from '@nestjs/common';
 import { BoardsService } from './boards.service';
 import { randomBytes } from 'crypto'
-import { CredentialsService } from 'src/credentials/credentials.service';
-import { CredentialDto } from 'src/credentials/credential.dto';
+import { CredentialsService } from '../credentials/credentials.service';
+import { CredentialDto } from '../credentials/credential.dto';
 
 @Controller('boards')
 export class BoardsController {
     constructor(
         private boardsService: BoardsService,
-        private crendentailsService: CredentialsService
+        private crendentialsService: CredentialsService
     ) {}
 
-    @Get('newboard')
+    @Post('newboard')
     async newBoard(@Body() credentialDto: CredentialDto) {
         const username = credentialDto.username;
         const password = credentialDto.password;
-        if (this.crendentailsService.isValidPassword(username, password)) {
+        if (await this.crendentialsService.isValidPassword(username, password)) {
             const rb = randomBytes(16);
             const boardId = rb.toString('hex');
             await this.boardsService.createBoard(boardId);

@@ -31,27 +31,27 @@ export default class Task extends React.Component {
   markAs(state) {
     let task = this.props.task;
     task.state = state;
-    this.props.socket.emit('updateTask', task);
+    this.props.taskSocket.emit('updateTask', task);
   }
 
   edit() {
     this.setState({ modifying: true });
-    this.props.socket.emit('somebodyElseModifies', this.props.task.taskId)
+    this.props.taskSocket.emit('somebodyElseModifies', this.props.task.taskId)
   }
 
   update(newTask) {
     let task = this.props.task;
-    this.props.socket.emit('somebodyElseStopsModification', task.taskId)
+    this.props.taskSocket.emit('somebodyElseStopsModification', task.taskId)
     this.setState({ modifying: false });
     task.title = newTask.title
     task.content = newTask.content
-    this.props.socket.emit('updateTask', task);
+    this.props.taskSocket.emit('updateTask', task);
   }
 
   deleteTask() {
     let task = this.props.task;
     let taskId = task.taskId;
-    this.props.socket.emit('deleteTask', taskId);
+    this.props.taskSocket.emit('deleteTask', taskId);
   }
 
   managePeople() {
@@ -83,6 +83,7 @@ export default class Task extends React.Component {
         key={subtask.taskId}
         subtask={subtask}
         socket={this.props.socket}
+        taskSocket={this.props.taskSocket}
         showActions={this.state.showActions}
       />);
     return subtaskComponents;
@@ -164,6 +165,7 @@ export default class Task extends React.Component {
             taskPeople={this.props.taskPeople}
             stopManagingPeople={this.stopManagingPeople}
             socket={this.props.socket}
+            taskSocket={this.props.taskSocket}
           />
           :
           <PeopleComponentList

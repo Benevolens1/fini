@@ -15,8 +15,8 @@ export class TasksService {
         private commonService: CommonService
     ) { }
 
-    async findAll(): Promise<Task[]> {
-        return this.taskModel.findAll();
+    async findAll(boardId: string): Promise<Task[]> {
+        return this.taskModel.findAll({where: {boardId: boardId}});
     }
 
     async createTask(

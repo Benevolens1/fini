@@ -25,6 +25,14 @@ describe('EventsGateway', () => {
     });
   });
 
+  afterEach(() => {
+    socket.disconnect();
+  });
+
+  afterAll(async () => {
+    await app.close();
+  });
+
   describe('create task', () => {
     it('should receive the createTask sended', done => {
       socket.emit('boardId', "a");
@@ -60,11 +68,5 @@ describe('EventsGateway', () => {
     });
   });
 
-  afterEach(() => {
-    socket.disconnect();
-  });
 
-  afterAll(async () => {
-    await app.close();
-  });
 });
