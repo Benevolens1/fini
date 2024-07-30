@@ -16,16 +16,23 @@ class App extends React.Component {
     this.componentDidMount = this.componentDidMount.bind(this);
     this.handleTaskMenu = this.handleTaskMenu.bind(this);
     this.handlePeopleMenu = this.handlePeopleMenu.bind(this);
+    this.setImodify = this.setImodify.bind(this);
 
     const socket = io();
     const taskSocket = io("/tasks");
     const peopleSocket = io("/people");
+    const taskpeopleSocket = io("/taskpeople");
+    const subtaskSocket = io("/subtasks");
+    const concurrentModifSocket = io("/concurrentmodif");
 
     const url = window.location.href
     const splittedUrl = url.split('/');
     const boardId = splittedUrl[splittedUrl.length - 1];
     taskSocket.emit('boardId', boardId);
     peopleSocket.emit('boardId', boardId);
+    taskpeopleSocket.emit('boardId', boardId);
+    subtaskSocket.emit('boardId', boardId);
+    concurrentModifSocket.emit('boardId', boardId);
 
     this.state = {
       tasks: {},
@@ -34,9 +41,13 @@ class App extends React.Component {
       taskMenu: false,
       peopleMenu: false,
       somebodyElseModifies: [],
+      imodify: [],
       socket: socket,
       taskSocket: taskSocket,
       peopleSocket: peopleSocket,
+      taskpeopleSocket: taskpeopleSocket,
+      subtaskSocket: subtaskSocket,
+      concurrentModifSocket: concurrentModifSocket,
       subtasks: []
     };
   }
@@ -87,7 +98,6 @@ class App extends React.Component {
     fetch('/api/tasks/' + boardId, { method: 'GET' })
       .then((res) => res.json())
       .then(taskList => {
-        console.log("taskList :", taskList);
         let tasks = {};
         for (const task of taskList) {
           tasks[task.taskId] = task;
@@ -105,6 +115,10 @@ class App extends React.Component {
     let socket = this.state.socket;
     let taskSocket = this.state.taskSocket;
     let peopleSocket = this.state.peopleSocket;
+    let taskpeopleSocket = this.state.taskpeopleSocket;
+    let subtaskSocket = this.state.subtaskSocket
+    let concurrentModifSocket = this.state.concurrentModifSocket;
+
 
     taskSocket.on('createTask', (task) => {
       let tasks = this.state.tasks;
@@ -131,14 +145,12 @@ class App extends React.Component {
     });
 
     peopleSocket.on('createPerson', (person) => {
-      console.log("createPerson event launched")
       let people = this.state.people;
       people[person.personId] = person;
       this.setState({ people: people });
     });
 
     peopleSocket.on('deletePerson', (personId) => {
-      console.log("deletePerson event reveived and launched")
       let people = this.state.people;
       delete people[personId];
       let taskPeople = this.state.taskPeople;
@@ -151,7 +163,9 @@ class App extends React.Component {
       this.setState({ taskPeople: taskPeople });
     });
 
-    socket.on('createTaskPerson', (taskId, personId) => {
+    taskpeopleSocket.on('createTaskPerson', (taskPerson) => {
+      const taskId = taskPerson.taskId;
+      const personId = taskPerson.personId;
       let taskPeople = this.state.taskPeople;
       for (const taskPerson of taskPeople) {
         if (taskPerson.taskId === taskId && taskPerson.personId === personId) {
@@ -162,7 +176,9 @@ class App extends React.Component {
       this.setState({ taskPeople: taskPeople });
     });
 
-    socket.on('deleteTaskPerson', (taskId, personId) => {
+    taskpeopleSocket.on('deleteTaskPerson', (taskPerson) => {
+      const taskId = taskPerson.taskId;
+      const personId = taskPerson.personId;
       let taskPeople = this.state.taskPeople;
       let newTaskPeople = [];
       for (let i = 0, len = taskPeople.length; i < len; i++) {
@@ -175,13 +191,15 @@ class App extends React.Component {
       this.setState({ taskPeople: newTaskPeople });
     });
 
-    socket.on('somebodyElseModifies', (taskId) => {
+    concurrentModifSocket.on('somebodyElseModifies', (taskId) => {
+      if (taskId === this.state.imodify) return;
       let somebodyElseModifies = this.state.somebodyElseModifies;
       somebodyElseModifies.push(taskId);
       this.setState({ somebodyElseModifies: somebodyElseModifies })
     })
 
-    socket.on('somebodyElseStopsModification', (taskId) => {
+    concurrentModifSocket.on('somebodyElseStopsModification', (taskId) => {
+      this.setImodify(null);
       let somebodyElseModifies = this.state.somebodyElseModifies;
       let afterSomebodyElseModifies = somebodyElseModifies.filter(
         ongoingModificationTid => ongoingModificationTid != taskId
@@ -189,7 +207,8 @@ class App extends React.Component {
       this.setState({ somebodyElseModifies: afterSomebodyElseModifies });
     });
 
-    socket.on('createSubtask', subtask => {
+    subtaskSocket.on('createSubtask', subtask => {
+      console.log('createSubtask :', subtask);
       let subtaskList = this.state.subtasks;
       for (let i = 0; i < subtaskList.length; i++) {
         if (subtaskList[i].taskId === subtask.taskId) {
@@ -197,11 +216,10 @@ class App extends React.Component {
         }
       }
       subtaskList.push(subtask);
-      console.log("a subtask : ", subtask);
       this.setState({ subtasks: subtaskList });
     });
 
-    socket.on('updateSubtask', subtask => {
+    subtaskSocket.on('updateSubtask', subtask => {
       let subtaskList = this.state.subtasks;
       let taskId = subtask.taskId;
       for (let i = 0; i < subtaskList.length; i++) {
@@ -213,7 +231,7 @@ class App extends React.Component {
       this.setState({ subtasks: subtaskList })
     });
 
-    socket.on('deleteSubtask', taskId => {
+    subtaskSocket.on('deleteSubtask', taskId => {
       let subtaskList = this.state.subtasks;
       for (let i = 0; i < subtaskList.length; i++) {
         if (subtaskList[i].taskId === taskId) {
@@ -223,6 +241,10 @@ class App extends React.Component {
       }
       this.setState({ subtasks: subtaskList });
     });
+  }
+
+  setImodify(taskId) {
+    this.setState({imodify: taskId});
   }
 
   render() {
@@ -258,7 +280,12 @@ class App extends React.Component {
           socket={this.state.socket}
           taskSocket={this.state.taskSocket}
           peopleSocket={this.state.peopleSocket}
+          taskpeopleSocket={this.state.taskpeopleSocket}
           somebodyElseModifies={this.state.somebodyElseModifies}
+          imodify={this.state.imodify}
+          subtaskSocket={this.state.subtaskSocket}
+          concurrentModifSocket={this.state.concurrentModifSocket}
+          setImodify={this.setImodify}
           subtasks={this.state.subtasks}
         />
       </>

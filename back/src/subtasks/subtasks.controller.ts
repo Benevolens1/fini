@@ -1,12 +1,15 @@
 import { Controller, Get, Param } from '@nestjs/common';
+import { SubtasksService } from './subtasks.service';
 
 @Controller('subtasks')
 export class SubtasksController {
-    constructor() {}
+    constructor(
+        private SubtaskService: SubtasksService
+    ) {}
 
     @Get(':boardId')
-    findAll(@Param('boardId') boardId: string) {
-        return [];
+    async findAll(@Param('boardId') boardId: string) {
+        return await this.SubtaskService.findAll(boardId);
     }
 }
 

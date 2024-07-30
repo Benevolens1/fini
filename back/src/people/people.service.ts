@@ -4,13 +4,15 @@ import { Person } from './person.model';
 import { ClientPersonDto } from './clientPersonDto.dto';
 import { CommonService } from '../common/common.service';
 import { serverPersonDto } from './serverPersonDto.dto';
+import { TaskpeopleService } from '../taskpeople/taskpeople.service';
 
 @Injectable()
 export class PeopleService {
     constructor(
         @InjectModel(Person)
         private personModel: typeof Person,
-        private commonService: CommonService
+        private commonService: CommonService,
+        private taskpeopleService: TaskpeopleService
     ) {}
 
     async findAllPeople(boardId: string): Promise<Person[]> {
@@ -29,6 +31,6 @@ export class PeopleService {
 
     async removePerson(personId: string, boardId: string) {
         await this.personModel.destroy({where: {personId, boardId}});
-        // don't forget to destroy taskpeople related to this person
+        await this.taskpeopleService.removeAllTaskPersonOfAPerson(personId, boardId);
     }
 }

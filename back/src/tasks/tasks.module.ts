@@ -5,11 +5,13 @@ import { SequelizeModule } from '@nestjs/sequelize';
 import { Task } from './task.model';
 import { TasksGateway } from './tasks.gateway';
 import { CommonModule } from '../common/common.module';
+import { TaskpeopleModule } from '../taskpeople/taskpeople.module';
 
 @Module({
   imports: [
     SequelizeModule.forFeature([Task]),
-    CommonModule
+    CommonModule,
+    TaskpeopleModule
   ],
   controllers: [TasksController],
   providers: [TasksService, TasksGateway]

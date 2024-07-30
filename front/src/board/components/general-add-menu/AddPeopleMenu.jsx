@@ -25,7 +25,7 @@ export default class AddPeopleMenu extends React.Component {
     let person = { name: input };
     this.setState({ input: '' });
     this.props.peopleSocket.emit('createPerson', person);
-    document.querySelector('form#people input').focus();
+    document.querySelector('input#peopleInput').focus();
   }
 
   handleEnter(e) {

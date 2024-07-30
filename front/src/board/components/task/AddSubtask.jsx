@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-export default function AddSubtask({socket, parentId, confirm}) {
+export default function AddSubtask({parentId, confirm, subtaskSocket}) {
 
     let [subtaskState, setSubtaskState] = useState(false);
     let [subtaskContent, setSubtaskContent] = useState("");
@@ -9,15 +9,15 @@ export default function AddSubtask({socket, parentId, confirm}) {
         document.querySelector("#content").focus();
     }, []);
 
-    function onSubmit(socket, parentId, confirm, subtaskState, subtaskContent) {
+    function onSubmit(subtaskSocket, parentId, confirm, subtaskState, subtaskContent) {
         let state = subtaskState ? "done" : "todo";
         let subtask = {
             state: state,
             content: subtaskContent,
             parentId: parentId
         };
-        socket.emit('createSubtask', subtask);
-        console.log("subtask state sent : ", subtask.state);
+        subtaskSocket.emit('createSubtask', subtask);
+        console.log("subtask sent : ", subtask);
         confirm();
     }
 
@@ -30,6 +30,6 @@ export default function AddSubtask({socket, parentId, confirm}) {
     return (<div>
     <input type="checkbox" value={subtaskState} onChange={(e) => setSubtaskState(e.target.checked)}/>
     <input id="content" type="text" value={subtaskContent} onChange={(e) => setSubtaskContent(e.target.value)} onKeyUp={handleEnter}/>
-    <input type="submit" value="OK !" onClick={() => onSubmit(socket, parentId, confirm, subtaskState, subtaskContent)}/>
+    <input type="submit" value="OK !" onClick={() => onSubmit(subtaskSocket, parentId, confirm, subtaskState, subtaskContent)}/>
     </div>);
 }

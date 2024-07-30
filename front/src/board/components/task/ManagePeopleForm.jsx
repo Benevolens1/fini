@@ -9,10 +9,13 @@ export default class ManagePeopleForm extends React.Component {
     }
   
     handleCheckbox(e) {
+      console.log("handle checkbox launched")
       if (e.target.checked === false) {
-        this.props.socket.emit('deleteTaskPerson', this.props.taskId, e.target.id);
+        this.props.taskpeopleSocket.emit('deleteTaskPerson', {taskId: this.props.taskId, personId: e.target.id});
+        console.log("delete task person")
       } else {
-        this.props.socket.emit('createTaskPerson', this.props.taskId, e.target.id);
+        this.props.taskpeopleSocket.emit('createTaskPerson', {taskId: this.props.taskId, personId: e.target.id});
+        console.log("create task person")
       }
     }
   

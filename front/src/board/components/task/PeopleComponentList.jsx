@@ -20,6 +20,7 @@ export default class PeopleComponentList extends React.Component {
       let peopleComponents = [];
       for (let i = 0, len = people.length; i < len; i++) {
         let someone = people[i];
+        console.log("someone :", someone);
         let personId = someone.personId;
         let name = someone.name;
         peopleComponents.push(<li key={personId}>{name}</li>);

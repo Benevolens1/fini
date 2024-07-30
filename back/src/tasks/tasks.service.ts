@@ -5,6 +5,7 @@ import { Sequelize } from 'sequelize-typescript';
 import { FromUserProposedTaskDto } from './fromUserProposedTask.dto';
 import { CommonService } from '../common/common.service';
 import { FromServerCreatedTaskDto } from './fromServerCreatedTask.dto';
+import { TaskpeopleService } from '../taskpeople/taskpeople.service';
 
 @Injectable()
 export class TasksService {
@@ -12,7 +13,8 @@ export class TasksService {
         @InjectModel(Task)
         private taskModel: typeof Task,
         private sequelize: Sequelize,
-        private commonService: CommonService
+        private commonService: CommonService,
+        private taskpeopleService: TaskpeopleService
     ) { }
 
     async findAll(boardId: string): Promise<Task[]> {
@@ -55,6 +57,8 @@ export class TasksService {
 
                 const task = await this.taskModel.findOne({ where: { taskId: taskId, boardId: boardId } });
                 await task.destroy();
+                await this.taskpeopleService.removeAllTaskPersonOfATask(taskId, boardId);
+
             });
             return true;
         } catch (err) {

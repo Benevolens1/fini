@@ -29,7 +29,11 @@ export default class Column extends React.Component {
                 taskPeople={this.props.taskPeople}
                 socket={this.props.socket}
                 taskSocket={this.props.taskSocket}
+                taskpeopleSocket={this.props.taskpeopleSocket}
+                subtaskSocket={this.props.subtaskSocket}
                 somebodyElseModifies={this.props.somebodyElseModifies}
+                concurrentModifSocket={this.props.concurrentModifSocket}
+                setImodify={this.props.setImodify}
                 subtasks={this.props.subtasks}
             />
         );

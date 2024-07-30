@@ -5,9 +5,14 @@ import { SequelizeModule } from '@nestjs/sequelize';
 import { Person } from './person.model';
 import { CommonModule } from '../common/common.module';
 import { PeopleGateway } from './people.gateway';
+import { TaskpeopleModule } from '../taskpeople/taskpeople.module';
 
 @Module({
-    imports: [SequelizeModule.forFeature([Person]), CommonModule],
+    imports: [
+        SequelizeModule.forFeature([Person]),
+        CommonModule,
+        TaskpeopleModule
+    ],
     controllers: [PeopleController],
     providers: [PeopleService, PeopleGateway]
 })

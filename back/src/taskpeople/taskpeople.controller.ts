@@ -1,11 +1,14 @@
 import { Controller, Get, Param } from '@nestjs/common';
+import { TaskpeopleService } from './taskpeople.service';
 
 @Controller('taskpeople')
 export class TaskpeopleController {
-    constructor() {}
+    constructor(
+        private taskpeopleService: TaskpeopleService
+    ) {}
 
     @Get(':boardId')
-    findAll(@Param('boardId') boardId: string) {
-        return [];
+    async findAll(@Param('boardId') boardId: string) {
+        return await this.taskpeopleService.findAll(boardId);
     }
 }

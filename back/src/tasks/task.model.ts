@@ -1,5 +1,4 @@
-import { Column, Model, Table } from "sequelize-typescript";
-import { DataType } from "sequelize-typescript";
+import { Column, Model, Table, DataType } from "sequelize-typescript";
 
 @Table
 export class Task extends Model {

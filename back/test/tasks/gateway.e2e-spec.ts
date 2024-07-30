@@ -1,4 +1,4 @@
-import { INestApplication } from '@nestjs/common';
+import { INestApplication, ValidationPipe } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
 import { AppModule } from '../../src/app.module';
 import { io, Socket } from 'socket.io-client';
@@ -15,6 +15,7 @@ describe('EventsGateway', () => {
     }).compile();
 
     app = moduleRef.createNestApplication();
+    app.useGlobalPipes(new ValidationPipe());
     await app.listen(3001);
   });
 
@@ -37,6 +38,19 @@ describe('EventsGateway', () => {
     it('should receive the createTask sended', done => {
       socket.emit('boardId', "a");
       socket.emit('createTask', { taskId: 'taskid', state: 'todo', title: 'titre', content: 'contenulololol'});
+      socket.on('createTask', (receivedTask) => {
+        task = receivedTask;
+        expect(task).toHaveProperty('state', 'todo');
+        expect(task).toHaveProperty('title', 'titre');
+        expect(task).toHaveProperty('content', 'contenulololol');
+        expect(task).toHaveProperty('boardId', 'a');
+        done();
+      });
+    });
+
+    it('should receive an error for an inapropriate createTask sended', done => {
+      socket.emit('boardId', "a");
+      socket.emit('createTask', { taskIdError: 'taskid', state: 'todo', title: 'titre', content: 'contenulololol'});
       socket.on('createTask', (receivedTask) => {
         task = receivedTask;
         expect(task).toHaveProperty('state', 'todo');

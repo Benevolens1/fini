@@ -41,7 +41,11 @@ export default class Table extends React.Component {
             socket={this.props.socket}
             taskSocket={this.props.taskSocket}
             peopleSocket={this.props.peopleSocket}
+            taskpeopleSocket={this.props.taskpeopleSocket}
+            subtaskSocket={this.props.subtaskSocket}
             somebodyElseModifies={this.props.somebodyElseModifies}
+            concurrentModifSocket={this.props.concurrentModifSocket}
+            setImodify={this.props.setImodify}
             subtasks={this.props.subtasks}
           />
           <Column
@@ -53,7 +57,11 @@ export default class Table extends React.Component {
             socket={this.props.socket}
             taskSocket={this.props.taskSocket}
             peopleSocket={this.props.peopleSocket}
+            taskpeopleSocket={this.props.taskpeopleSocket}
+            subtaskSocket={this.props.subtaskSocket}
             somebodyElseModifies={this.props.somebodyElseModifies}
+            concurrentModifSocket={this.props.concurrentModifSocket}
+            setImodify={this.props.setImodify}
             subtasks={this.props.subtasks}
           />
           <Column
@@ -65,7 +73,11 @@ export default class Table extends React.Component {
             socket={this.props.socket}
             taskSocket={this.props.taskSocket}
             peopleSocket={this.props.peopleSocket}
+            taskpeopleSocket={this.props.taskpeopleSocket}
+            subtaskSocket={this.props.subtaskSocket}
             somebodyElseModifies={this.props.somebodyElseModifies}
+            concurrentModifSocket={this.props.concurrentModifSocket}
+            setImodify={this.props.setImodify}
             subtasks={this.props.subtasks}
           />
         </div>

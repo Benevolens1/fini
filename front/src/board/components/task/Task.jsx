@@ -36,15 +36,17 @@ export default class Task extends React.Component {
 
   edit() {
     this.setState({ modifying: true });
-    this.props.taskSocket.emit('somebodyElseModifies', this.props.task.taskId)
+    this.props.setImodify(this.props.task.taskId);
+    this.props.concurrentModifSocket.emit('somebodyElseModifies', this.props.task.taskId);
+    console.log('somebodyElseModifies : taskId ', this.props.task.taskId);
   }
 
   update(newTask) {
     let task = this.props.task;
-    this.props.taskSocket.emit('somebodyElseStopsModification', task.taskId)
+    this.props.concurrentModifSocket.emit('somebodyElseStopsModification', task.taskId);
     this.setState({ modifying: false });
-    task.title = newTask.title
-    task.content = newTask.content
+    task.title = newTask.title;
+    task.content = newTask.content;
     this.props.taskSocket.emit('updateTask', task);
   }
 
@@ -82,8 +84,7 @@ export default class Task extends React.Component {
       <Subtask
         key={subtask.taskId}
         subtask={subtask}
-        socket={this.props.socket}
-        taskSocket={this.props.taskSocket}
+        subtaskSocket={this.props.subtaskSocket}
         showActions={this.state.showActions}
       />);
     return subtaskComponents;
@@ -155,7 +156,7 @@ export default class Task extends React.Component {
         }
 
         {this.state.addingSubtask &&
-          <AddSubtask socket={this.props.socket} parentId={task.taskId} confirm={this.confirmSubtask}/>
+          <AddSubtask socket={this.props.socket} parentId={task.taskId} confirm={this.confirmSubtask} subtaskSocket={this.props.subtaskSocket}/>
         }
 
         {this.state.managingpeople ?
@@ -166,6 +167,7 @@ export default class Task extends React.Component {
             stopManagingPeople={this.stopManagingPeople}
             socket={this.props.socket}
             taskSocket={this.props.taskSocket}
+            taskpeopleSocket={this.props.taskpeopleSocket}
           />
           :
           <PeopleComponentList

@@ -1,12 +1,14 @@
-export default function Subtask({ subtask, socket, showActions }) {
+export default function Subtask({ subtask, socket, showActions, subtaskSocket }) {
 
     function onChangeSubtaskState(e) {
         subtask.state = e.target.checked ? "done" : "todo";
-        socket.emit('updateSubtask', subtask);
+        
+        subtaskSocket.emit('updateSubtask', subtask);
+        console.log('updateSubtask launched :', subtaskSocket);
     }
 
     function deleteSubtask() {
-        socket.emit('deleteSubtask', subtask.taskId);
+        subtaskSocket.emit('deleteSubtask', subtask.taskId);
     }
 
     return (
