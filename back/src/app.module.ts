@@ -18,6 +18,8 @@ import { Subtask } from './subtasks/subtask.model';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { ConcurrentmodifModule } from './concurrentmodif/concurrentmodif.module';
+import { AuthModule } from './auth/auth.module';
+import { ConfigModule } from '@nestjs/config';
 
 
 @Module({
@@ -39,6 +41,10 @@ import { ConcurrentmodifModule } from './concurrentmodif/concurrentmodif.module'
       rootPath: join(__dirname, '..', 'client'),
     }),
     ConcurrentmodifModule,
+    AuthModule,
+    ConfigModule.forRoot({
+      isGlobal: true
+    })
   ],
   controllers: [AppController],
   providers: [AppService],

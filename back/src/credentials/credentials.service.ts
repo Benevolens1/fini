@@ -24,9 +24,10 @@ export class CredentialsService {
 
     async isValidPassword(username: string, password:string) {
         const account: Credential = await this.credentialModel.findOne({ where: {username: username}});
-        if (account === null) {
+        if (!account) {
             return false;
         }
+        console.log("password and hash :", password, account.hash);
         const isMatch = await bcrypt.compare(password, account.hash)
         if (account.username == username && isMatch) {
             return true;

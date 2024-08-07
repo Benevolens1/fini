@@ -12,6 +12,7 @@ describe('task get all tasks', () => {
       }).compile();
 
       app = moduleFixture.createNestApplication();
+      app.setGlobalPrefix('api');
       await app.init();
     });
 
@@ -20,7 +21,7 @@ describe('task get all tasks', () => {
     });
 
     it('tasks should contain the right test task attributes', async () => {
-      const response = await request(app.getHttpServer()).get('/tasks/a');
+      const response = await request(app.getHttpServer()).get('/api/tasks/a');
 
       const firstTask = response.body[0];
       expect(firstTask).toHaveProperty("taskId", "1");

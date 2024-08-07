@@ -12,6 +12,7 @@ describe('AppController (e2e)', () => {
     }).compile();
 
     app = moduleFixture.createNestApplication();
+    app.setGlobalPrefix('api');
     await app.init();
   });
 
@@ -20,7 +21,7 @@ describe('AppController (e2e)', () => {
   });
 
   it('/people/a (GET)', async () => {
-    const response = await request(app.getHttpServer()).get('/people/a');
+    const response = await request(app.getHttpServer()).get('/api/people/a');
     expect(response.body).toHaveLength(1);
     expect(response.body[0]).toHaveProperty('name', 'Stan');
   });
