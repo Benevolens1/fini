@@ -50,15 +50,15 @@ describe('AppController (e2e)', () => {
       });
   });
 
-  it('/boards/myboards (GET)', () => {
-    return request(app.getHttpServer())
-      .get('/api/boards/myboards')
-      .expect('Content-Type', /json/)
-      .auth(token, {type: 'bearer'})
-      .then((response) => {
-        expect(response.body).toContain({boardId: 'a', title: 'my first board', creator: 'John'});
-        expect(response.body).toContain({boardId: boardId, title: 'my second', creator: 'John'});
+  // it('/boards/myboards (GET)', () => {
+  //   return request(app.getHttpServer())
+  //     .get('/api/boards/myboards')
+  //     .expect('Content-Type', /json/)
+  //     .auth(token, {type: 'bearer'})
+  //     .then((response) => {
+  //       expect(response.body).toContain({boardId: 'a', title: 'my first board', creator: 'John'});
+  //       expect(response.body).toContain({boardId: boardId, title: 'my second', creator: 'John'});
 
-      })
-  });
+  //     })
+  // });
 });

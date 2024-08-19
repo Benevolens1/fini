@@ -1,8 +1,7 @@
-import { Controller, Get, Param, HttpException, HttpStatus, NotFoundException, Body, Post, Req, UseGuards } from '@nestjs/common';
+import { Controller, Get, Param, NotFoundException, Body, Post, Req, UseGuards } from '@nestjs/common';
 import { BoardsService } from './boards.service';
 import { randomBytes } from 'crypto'
 import { CredentialsService } from '../credentials/credentials.service';
-import { CredentialDto } from '../credentials/credential.dto';
 import { AuthGuard } from '../auth/auth.guard';
 
 @Controller('boards')

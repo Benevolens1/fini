@@ -38,4 +38,14 @@ export class BoardsService {
     async deleteBoard(boardId: string) {
         await this.boardsModel.destroy({where: {boardId}});
     }
+
+    async deleteBoardsFromCreator(creator: string) {
+        await this.boardsModel.destroy({where: {creator}});
+    }
+
+    async countAllBoards() {
+        const [results, metadata] = await this.sequelize.query('SELECT COUNT(*) FROM Boards');
+        const number = results[0]['COUNT(*)'];
+        return number;
+    }
 }

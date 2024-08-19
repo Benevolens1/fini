@@ -11,6 +11,7 @@ import { CredentialsModule } from '../credentials/credentials.module';
         CredentialsModule
     ],
     providers: [BoardsService],
-    controllers: [BoardsController]
+    controllers: [BoardsController],
+    exports: [BoardsService]
 })
 export class BoardsModule {}

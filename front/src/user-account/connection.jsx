@@ -1,7 +1,9 @@
-import { redirect, Form, json } from "react-router-dom";
+import { redirect, Form } from "react-router-dom";
 import Cookies from 'js-cookie'
+import { jwtDecode } from "jwt-decode";
 
 export async function action({ request, params }) {
+    let token;
     console.log('connection action launched');
     const formData = await request.formData();
     const username = formData.get("username");
@@ -18,12 +20,17 @@ export async function action({ request, params }) {
             }
         });
     const jsonObject = await response.json();
-    console.log('json object :', jsonObject);
     if (jsonObject.message === "Unauthorized" && jsonObject.statusCode === 401) {
-        throw new Error('wrong password');
+        throw new Error('wrong username or password');
     } else if (jsonObject.access_token) {
-        console.log('normal redirect way');
-        Cookies.set('jwt', jsonObject.access_token, {expires: 1});
+        token = jsonObject.access_token;
+        Cookies.set('jwt', token, {expires: 1});
+        const decoded = jwtDecode(token);
+
+        if (decoded.username === 'admin') {
+            return redirect('/admin');
+        }
+
         return redirect('/myboards');
     } else {
         throw new Error('unknown error');

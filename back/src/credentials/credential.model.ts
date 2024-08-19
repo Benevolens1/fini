@@ -1,7 +1,9 @@
-import { Column, Model, Table } from "sequelize-typescript";
+import { Column, Model, Table, Unique } from "sequelize-typescript";
 
 @Table
 export class Credential extends Model {
+
+    @Unique
     @Column
     username: string;
 

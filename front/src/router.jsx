@@ -5,6 +5,7 @@ import ErrorPage from './errorPage';
 import Index from './index';
 import ConnectionPage, { action as connectionAction } from './user-account/connection';
 import MyBoardsPage, {loader as myboardsLoader} from './user-account/myboards';
+import AdminPage, {loader as adminLoader} from './admin/admin';
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
@@ -20,6 +21,10 @@ export const router = createBrowserRouter(
           path="connection"
           element={<ConnectionPage />}
           action={connectionAction} />
+          <Route
+          path="admin"
+          element={<AdminPage/>}
+          loader={adminLoader} />
         <Route
           path="myboards"
           element={<MyBoardsPage/>}

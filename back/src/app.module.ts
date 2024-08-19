@@ -20,10 +20,14 @@ import { join } from 'path';
 import { ConcurrentmodifModule } from './concurrentmodif/concurrentmodif.module';
 import { AuthModule } from './auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
+import { AdminModule } from './admin/admin.module';
 
 
 @Module({
   imports: [
+    ConfigModule.forRoot({
+      isGlobal: true
+    }),
     BoardsModule,
     TasksModule,
     SequelizeModule.forRoot({
@@ -42,9 +46,8 @@ import { ConfigModule } from '@nestjs/config';
     }),
     ConcurrentmodifModule,
     AuthModule,
-    ConfigModule.forRoot({
-      isGlobal: true
-    })
+
+    AdminModule
   ],
   controllers: [AppController],
   providers: [AppService],
